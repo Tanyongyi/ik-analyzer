@@ -21,7 +21,7 @@ import org.wltea.analyzer.seg.ISegmenter;
 public final class IKSegmentation{
 
 	
-	private Reader input;	
+	private Reader input;
 	//默认缓冲区大小
 	private static final int BUFF_SIZE = 3072;
 	//缓冲区耗尽的临界值

@@ -88,7 +88,8 @@ public class Dictionary {
         if(is == null){
         	throw new RuntimeException("Main Dictionary not found!!!");
         }
-        
+
+//		loadDict(_MainDict, is, "Main");
 //		try {
 //			BufferedReader br = new BufferedReader(new InputStreamReader(is , "UTF-8"), 512);
 //			String theWord = null;
@@ -116,43 +117,72 @@ public class Dictionary {
 		
 		//加载扩展词典配置
 		List<String> extDictFiles  = Configuration.getExtDictionarys();
-		if(extDictFiles != null){
-			for(String extDictName : extDictFiles){
-				//读取扩展词典文件
-				is = Dictionary.class.getResourceAsStream(extDictName);
-				//如果找不到扩展的字典，则忽略
-				if(is == null){
-					continue;
+		for(String extDictName : extDictFiles){
+			//读取扩展词典文件
+			is = Dictionary.class.getResourceAsStream(extDictName);
+			//如果找不到扩展的字典，则忽略
+			if(is == null){
+				continue;
+			}
+			loadDict(_MainDict, is, "Extension");
+//			try {
+//				BufferedReader br = new BufferedReader(new InputStreamReader(is , "UTF-8"), 512);
+//				String theWord = null;
+//				do {
+//					theWord = br.readLine();
+//					if (theWord != null && !"".equals(theWord.trim())) {
+//						//加载扩展词典数据到主内存词典中
+//						//System.out.println(theWord);
+//						_MainDict.fillSegment(theWord.trim().toCharArray());
+//					}
+//				} while (theWord != null);
+//
+//			} catch (IOException ioe) {
+//				System.err.println("Extension Dictionary loading exception.");
+//				ioe.printStackTrace();
+//
+//			}finally{
+//				try {
+//					if(is != null){
+//						is.close();
+//						is = null;
+//					}
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//			}
+		}
+	}
+
+	/**
+	 * 加载词典数据
+	 */
+	private void loadDict(DictSegment dict, InputStream inputStream, String dictType){
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(inputStream , "UTF-8"), 512);
+			String theWord = null;
+			do {
+				theWord = br.readLine();
+				if (theWord != null && !"".equals(theWord.trim())) {
+					//加载词典数据到主内存词典中
+					dict.fillSegment(theWord.trim().toCharArray());
 				}
-				try {
-					BufferedReader br = new BufferedReader(new InputStreamReader(is , "UTF-8"), 512);
-					String theWord = null;
-					do {
-						theWord = br.readLine();
-						if (theWord != null && !"".equals(theWord.trim())) {
-							//加载扩展词典数据到主内存词典中
-							//System.out.println(theWord);
-							_MainDict.fillSegment(theWord.trim().toCharArray());
-						}
-					} while (theWord != null);
-					
-				} catch (IOException ioe) {
-					System.err.println("Extension Dictionary loading exception.");
-					ioe.printStackTrace();
-					
-				}finally{
-					try {
-						if(is != null){
-		                    is.close();
-		                    is = null;
-						}
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+			} while (theWord != null);
+
+		} catch (IOException ioe) {
+			System.err.println(dictType + "Dictionary loading exception.");
+			ioe.printStackTrace();
+		}finally{
+			try {
+				if(inputStream != null){
+					inputStream.close();
+					inputStream = null;
 				}
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
-	}	
+	}
 	
 	/**
 	 * 加载姓氏词典
@@ -165,30 +195,31 @@ public class Dictionary {
         if(is == null){
         	throw new RuntimeException("Surname Dictionary not found!!!");
         }
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(is , "UTF-8"), 512);
-			String theWord = null;
-			do {
-				theWord = br.readLine();
-				if (theWord != null && !"".equals(theWord.trim())) {
-					_SurnameDict.fillSegment(theWord.trim().toCharArray());
-				}
-			} while (theWord != null);
-			
-		} catch (IOException ioe) {
-			System.err.println("Surname Dictionary loading exception.");
-			ioe.printStackTrace();
-			
-		}finally{
-			try {
-				if(is != null){
-                    is.close();
-                    is = null;
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+        loadDict(_SurnameDict, is, "Surname");
+//		try {
+//			BufferedReader br = new BufferedReader(new InputStreamReader(is , "UTF-8"), 512);
+//			String theWord = null;
+//			do {
+//				theWord = br.readLine();
+//				if (theWord != null && !"".equals(theWord.trim())) {
+//					_SurnameDict.fillSegment(theWord.trim().toCharArray());
+//				}
+//			} while (theWord != null);
+//
+//		} catch (IOException ioe) {
+//			System.err.println("Surname Dictionary loading exception.");
+//			ioe.printStackTrace();
+//
+//		}finally{
+//			try {
+//				if(is != null){
+//                    is.close();
+//                    is = null;
+//				}
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
 	}
 	
 	/**
@@ -202,30 +233,31 @@ public class Dictionary {
         if(is == null){
         	throw new RuntimeException("Quantifier Dictionary not found!!!");
         }
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(is , "UTF-8"), 512);
-			String theWord = null;
-			do {
-				theWord = br.readLine();
-				if (theWord != null && !"".equals(theWord.trim())) {
-					_QuantifierDict.fillSegment(theWord.trim().toCharArray());
-				}
-			} while (theWord != null);
-			
-		} catch (IOException ioe) {
-			System.err.println("Quantifier Dictionary loading exception.");
-			ioe.printStackTrace();
-			
-		}finally{
-			try {
-				if(is != null){
-                    is.close();
-                    is = null;
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+		loadDict(_QuantifierDict, is, "Quantifier");
+//		try {
+//			BufferedReader br = new BufferedReader(new InputStreamReader(is , "UTF-8"), 512);
+//			String theWord = null;
+//			do {
+//				theWord = br.readLine();
+//				if (theWord != null && !"".equals(theWord.trim())) {
+//					_QuantifierDict.fillSegment(theWord.trim().toCharArray());
+//				}
+//			} while (theWord != null);
+//
+//		} catch (IOException ioe) {
+//			System.err.println("Quantifier Dictionary loading exception.");
+//			ioe.printStackTrace();
+//
+//		}finally{
+//			try {
+//				if(is != null){
+//                    is.close();
+//                    is = null;
+//				}
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
 	}
 	
 	/**
@@ -239,30 +271,31 @@ public class Dictionary {
         if(is == null){
         	throw new RuntimeException("Suffix Dictionary not found!!!");
         }
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(is , "UTF-8"), 512);
-			String theWord = null;
-			do {
-				theWord = br.readLine();
-				if (theWord != null && !"".equals(theWord.trim())) {
-					_SuffixDict.fillSegment(theWord.trim().toCharArray());
-				}
-			} while (theWord != null);
-			
-		} catch (IOException ioe) {
-			System.err.println("Suffix Dictionary loading exception.");
-			ioe.printStackTrace();
-			
-		}finally{
-			try {
-				if(is != null){
-                    is.close();
-                    is = null;
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+		loadDict(_SuffixDict, is, "Suffix");
+//		try {
+//			BufferedReader br = new BufferedReader(new InputStreamReader(is , "UTF-8"), 512);
+//			String theWord = null;
+//			do {
+//				theWord = br.readLine();
+//				if (theWord != null && !"".equals(theWord.trim())) {
+//					_SuffixDict.fillSegment(theWord.trim().toCharArray());
+//				}
+//			} while (theWord != null);
+//
+//		} catch (IOException ioe) {
+//			System.err.println("Suffix Dictionary loading exception.");
+//			ioe.printStackTrace();
+//
+//		}finally{
+//			try {
+//				if(is != null){
+//                    is.close();
+//                    is = null;
+//				}
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
 	}			
 
 	/**
@@ -276,31 +309,32 @@ public class Dictionary {
         if(is == null){
         	throw new RuntimeException("Preposition Dictionary not found!!!");
         }
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(is , "UTF-8"), 512);
-			String theWord = null;
-			do {
-				theWord = br.readLine();
-				if (theWord != null && !"".equals(theWord.trim())) {
-					//System.out.println(theWord);
-					_PrepDict.fillSegment(theWord.trim().toCharArray());
-				}
-			} while (theWord != null);
-			
-		} catch (IOException ioe) {
-			System.err.println("Preposition Dictionary loading exception.");
-			ioe.printStackTrace();
-			
-		}finally{
-			try {
-				if(is != null){
-                    is.close();
-                    is = null;
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+		loadDict(_PrepDict, is, "Preposition");
+//		try {
+//			BufferedReader br = new BufferedReader(new InputStreamReader(is , "UTF-8"), 512);
+//			String theWord = null;
+//			do {
+//				theWord = br.readLine();
+//				if (theWord != null && !"".equals(theWord.trim())) {
+//					//System.out.println(theWord);
+//					_PrepDict.fillSegment(theWord.trim().toCharArray());
+//				}
+//			} while (theWord != null);
+//
+//		} catch (IOException ioe) {
+//			System.err.println("Preposition Dictionary loading exception.");
+//			ioe.printStackTrace();
+//
+//		}finally{
+//			try {
+//				if(is != null){
+//                    is.close();
+//                    is = null;
+//				}
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
 	}
 	
 	/**
@@ -312,32 +346,33 @@ public class Dictionary {
 		//读取量词词典文件
         InputStream is = Dictionary.class.getResourceAsStream(Dictionary.PATH_DIC_STOP);
         if(is == null){
-        	throw new RuntimeException("Stopword Dictionary not found!!!");
+        	throw new RuntimeException("StopWord Dictionary not found!!!");
         }
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(is , "UTF-8"), 512);
-			String theWord = null;
-			do {
-				theWord = br.readLine();
-				if (theWord != null && !"".equals(theWord.trim())) {
-					_StopWords.fillSegment(theWord.trim().toCharArray());
-				}
-			} while (theWord != null);
-			
-		} catch (IOException ioe) {
-			System.err.println("Stopword Dictionary loading exception.");
-			ioe.printStackTrace();
-			
-		}finally{
-			try {
-				if(is != null){
-                    is.close();
-                    is = null;
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+		loadDict(_StopWords, is, "StopWord");
+//		try {
+//			BufferedReader br = new BufferedReader(new InputStreamReader(is , "UTF-8"), 512);
+//			String theWord = null;
+//			do {
+//				theWord = br.readLine();
+//				if (theWord != null && !"".equals(theWord.trim())) {
+//					_StopWords.fillSegment(theWord.trim().toCharArray());
+//				}
+//			} while (theWord != null);
+//
+//		} catch (IOException ioe) {
+//			System.err.println("Stopword Dictionary loading exception.");
+//			ioe.printStackTrace();
+//
+//		}finally{
+//			try {
+//				if(is != null){
+//                    is.close();
+//                    is = null;
+//				}
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
 		
 		//加载扩展停止词典
 		List<String> extStopWordDictFiles  = Configuration.getExtStopWordDictionarys();
@@ -349,32 +384,33 @@ public class Dictionary {
 				if(is == null){
 					continue;
 				}
-				try {
-					BufferedReader br = new BufferedReader(new InputStreamReader(is , "UTF-8"), 512);
-					String theWord = null;
-					do {
-						theWord = br.readLine();
-						if (theWord != null && !"".equals(theWord.trim())) {
-							//System.out.println(theWord);
-							//加载扩展停止词典数据到内存中
-							_StopWords.fillSegment(theWord.trim().toCharArray());
-						}
-					} while (theWord != null);
-					
-				} catch (IOException ioe) {
-					System.err.println("Extension Stop word Dictionary loading exception.");
-					ioe.printStackTrace();
-					
-				}finally{
-					try {
-						if(is != null){
-		                    is.close();
-		                    is = null;
-						}
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
+				loadDict(_StopWords, is, "ExtensionStopWord");
+//				try {
+//					BufferedReader br = new BufferedReader(new InputStreamReader(is , "UTF-8"), 512);
+//					String theWord = null;
+//					do {
+//						theWord = br.readLine();
+//						if (theWord != null && !"".equals(theWord.trim())) {
+//							//System.out.println(theWord);
+//							//加载扩展停止词典数据到内存中
+//							_StopWords.fillSegment(theWord.trim().toCharArray());
+//						}
+//					} while (theWord != null);
+//
+//				} catch (IOException ioe) {
+//					System.err.println("Extension Stop word Dictionary loading exception.");
+//					ioe.printStackTrace();
+//
+//				}finally{
+//					try {
+//						if(is != null){
+//		                    is.close();
+//		                    is = null;
+//						}
+//					} catch (IOException e) {
+//						e.printStackTrace();
+//					}
+//				}
 			}
 		}		
 		
