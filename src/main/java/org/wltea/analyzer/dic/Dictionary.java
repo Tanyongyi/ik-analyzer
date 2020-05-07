@@ -70,10 +70,10 @@ public class Dictionary {
 	private Dictionary(){
 		//初始化系统词典
 		loadMainDict();
-		loadSurnameDict();
-		loadQuantifierDict();
-		loadSuffixDict();
-		loadPrepDict();
+//		loadSurnameDict();
+//		loadQuantifierDict();
+//		loadSuffixDict();
+//		loadPrepDict();
 		loadStopWordDict();
 	}
 
@@ -89,30 +89,30 @@ public class Dictionary {
         	throw new RuntimeException("Main Dictionary not found!!!");
         }
         
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(is , "UTF-8"), 512);
-			String theWord = null;
-			do {
-				theWord = br.readLine();
-				if (theWord != null && !"".equals(theWord.trim())) {
-					_MainDict.fillSegment(theWord.trim().toCharArray());
-				}
-			} while (theWord != null);
-			
-		} catch (IOException ioe) {
-			System.err.println("Main Dictionary loading exception.");
-			ioe.printStackTrace();
-			
-		}finally{
-			try {
-				if(is != null){
-                    is.close();
-                    is = null;
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+//		try {
+//			BufferedReader br = new BufferedReader(new InputStreamReader(is , "UTF-8"), 512);
+//			String theWord = null;
+//			do {
+//				theWord = br.readLine();
+//				if (theWord != null && !"".equals(theWord.trim())) {
+//					_MainDict.fillSegment(theWord.trim().toCharArray());
+//				}
+//			} while (theWord != null);
+//
+//		} catch (IOException ioe) {
+//			System.err.println("Main Dictionary loading exception.");
+//			ioe.printStackTrace();
+//
+//		}finally{
+//			try {
+//				if(is != null){
+//                    is.close();
+//                    is = null;
+//				}
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
 		
 		//加载扩展词典配置
 		List<String> extDictFiles  = Configuration.getExtDictionarys();
@@ -465,7 +465,7 @@ public class Dictionary {
 	 */
 	public static Hit matchInSurnameDict(char[] charArray , int begin, int length){
 		return singleton._SurnameDict.match(charArray, begin, length);
-	}		
+	}
 	
 //	/**
 //	 * 
@@ -550,5 +550,5 @@ public class Dictionary {
 	 */
 	public static boolean isStopWord(char[] charArray , int begin, int length){			
 		return singleton._StopWords.match(charArray, begin, length).isMatch();
-	}	
+	}
 }

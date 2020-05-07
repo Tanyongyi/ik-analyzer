@@ -660,47 +660,47 @@ public class QuantifierSegmenter implements ISegmenter {
 	 * @param context
 	 */
 	private void processCount(char[] segmentBuff , Context context){
-		Hit hit = null;
-
-		if(countStart == -1){
-			hit = Dictionary.matchInQuantifierDict(segmentBuff , context.getCursor() , 1);
-		}else{
-			hit = Dictionary.matchInQuantifierDict(segmentBuff , countStart , context.getCursor() - countStart + 1);
-		}
-		
-		if(hit != null){
-			if(hit.isPrefix()){
-				if(countStart == -1){
-					//设置量词的开始
-					countStart = context.getCursor();
-				}
-			}
-			
-			if(hit.isMatch()){
-				if(countStart == -1){
-					countStart = context.getCursor();
-				}
-				//设置量词可能的结束
-				countEnd = context.getCursor();
-				//输出可能存在的量词
-				outputCountLexeme(context);
-			}
-			
-			if(hit.isUnmatch()){
-				if(countStart != -1){
-					//重置量词状态
-					countStart = -1;
-					countEnd = -1;
-				}
-			}
-		}
-		
-		//读到缓冲区最后一个字符，还有尚未输出的量词
-		if(context.getCursor() == context.getAvailable() - 1){
-			//重置量词状态
-			countStart = -1;
-			countEnd = -1;
-		}
+//		Hit hit = null;
+//
+//		if(countStart == -1){
+//			hit = Dictionary.matchInQuantifierDict(segmentBuff , context.getCursor() , 1);
+//		}else{
+//			hit = Dictionary.matchInQuantifierDict(segmentBuff , countStart , context.getCursor() - countStart + 1);
+//		}
+//
+//		if(hit != null){
+//			if(hit.isPrefix()){
+//				if(countStart == -1){
+//					//设置量词的开始
+//					countStart = context.getCursor();
+//				}
+//			}
+//
+//			if(hit.isMatch()){
+//				if(countStart == -1){
+//					countStart = context.getCursor();
+//				}
+//				//设置量词可能的结束
+//				countEnd = context.getCursor();
+//				//输出可能存在的量词
+//				outputCountLexeme(context);
+//			}
+//
+//			if(hit.isUnmatch()){
+//				if(countStart != -1){
+//					//重置量词状态
+//					countStart = -1;
+//					countEnd = -1;
+//				}
+//			}
+//		}
+//
+//		//读到缓冲区最后一个字符，还有尚未输出的量词
+//		if(context.getCursor() == context.getAvailable() - 1){
+//			//重置量词状态
+//			countStart = -1;
+//			countEnd = -1;
+//		}
 	}
 
 	public void reset() {

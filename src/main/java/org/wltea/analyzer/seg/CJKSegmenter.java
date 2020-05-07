@@ -172,43 +172,43 @@ public class CJKSegmenter implements ISegmenter {
 	 * @param uEnd 终止位置
 	 */
 	private void processUnknown(char[] segmentBuff , Context context , int uBegin , int uEnd){
-		Lexeme newLexeme = null;
-		
-		Hit hit = Dictionary.matchInPrepDict(segmentBuff, uBegin, 1);		
-		if(hit.isUnmatch()){//不是副词或介词			
-			if(uBegin > 0){//处理姓氏
-				hit = Dictionary.matchInSurnameDict(segmentBuff, uBegin - 1 , 1);
-				if(hit.isMatch()){
-					//输出姓氏
-					newLexeme = new Lexeme(context.getBuffOffset() , uBegin - 1 , 1 , Lexeme.TYPE_CJK_SN);
-					context.addLexeme(newLexeme);		
-				}
-			}			
-		}
-		
-		//以单字输出未知词段
-		for(int i = uBegin ; i <= uEnd ; i++){
-			newLexeme = new Lexeme(context.getBuffOffset() , i , 1  , Lexeme.TYPE_CJK_UNKNOWN);
-			context.addLexeme(newLexeme);		
-		}
-		
-		hit = Dictionary.matchInPrepDict(segmentBuff, uEnd, 1);
-		if(hit.isUnmatch()){//不是副词或介词
-			int length = 1;
-			while(uEnd < context.getAvailable() - length){//处理后缀词
-				hit = Dictionary.matchInSuffixDict(segmentBuff, uEnd + 1 , length);
-				if(hit.isMatch()){
-					//输出后缀
-					newLexeme = new Lexeme(context.getBuffOffset() , uEnd + 1  , length , Lexeme.TYPE_CJK_SF);
-					context.addLexeme(newLexeme);
-					break;
-				}
-				if(hit.isUnmatch()){
-					break;
-				}
-				length++;
-			}
-		}		
+//		Lexeme newLexeme = null;
+//
+//		Hit hit = Dictionary.matchInPrepDict(segmentBuff, uBegin, 1);
+//		if(hit.isUnmatch()){//不是副词或介词
+//			if(uBegin > 0){//处理姓氏
+//				hit = Dictionary.matchInSurnameDict(segmentBuff, uBegin - 1 , 1);
+//				if(hit.isMatch()){
+//					//输出姓氏
+//					newLexeme = new Lexeme(context.getBuffOffset() , uBegin - 1 , 1 , Lexeme.TYPE_CJK_SN);
+//					context.addLexeme(newLexeme);
+//				}
+//			}
+//		}
+//
+//		//以单字输出未知词段
+//		for(int i = uBegin ; i <= uEnd ; i++){
+//			newLexeme = new Lexeme(context.getBuffOffset() , i , 1  , Lexeme.TYPE_CJK_UNKNOWN);
+//			context.addLexeme(newLexeme);
+//		}
+//
+//		hit = Dictionary.matchInPrepDict(segmentBuff, uEnd, 1);
+//		if(hit.isUnmatch()){//不是副词或介词
+//			int length = 1;
+//			while(uEnd < context.getAvailable() - length){//处理后缀词
+//				hit = Dictionary.matchInSuffixDict(segmentBuff, uEnd + 1 , length);
+//				if(hit.isMatch()){
+//					//输出后缀
+//					newLexeme = new Lexeme(context.getBuffOffset() , uEnd + 1  , length , Lexeme.TYPE_CJK_SF);
+//					context.addLexeme(newLexeme);
+//					break;
+//				}
+//				if(hit.isUnmatch()){
+//					break;
+//				}
+//				length++;
+//			}
+//		}
 	}
 	
 	public void reset() {
