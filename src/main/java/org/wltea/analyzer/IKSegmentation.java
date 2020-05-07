@@ -19,7 +19,6 @@ import org.wltea.analyzer.seg.ISegmenter;
  *
  */
 public final class IKSegmentation{
-
 	
 	private Reader input;
 	//默认缓冲区大小
