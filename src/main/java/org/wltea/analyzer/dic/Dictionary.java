@@ -69,7 +69,7 @@ public class Dictionary {
 
     private Dictionary() {
         //初始化系统词典
-        loadMainDict(null);
+//        loadMainDict(null);
 //		loadSurnameDict();
 //		loadQuantifierDict();
 //		loadSuffixDict();
